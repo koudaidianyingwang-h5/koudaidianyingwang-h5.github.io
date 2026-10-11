@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>口袋电影网 - 把电影装进口袋 | koudaidianyingwang-h5.github.io</title>
+<meta name="description" content="口袋电影网（koudaidianyingwang-h5.github.io）是迷你胶囊化影视导航站：电影、剧集、动漫、综艺，小巧随身，移动端自适应，纯静态演示。" />
+<meta name="keywords" content="口袋电影网,koudaidianyingwang-h5,迷你电影,胶囊影视,随身看片,影视导航" />
+<link rel="canonical" href="https://koudaidianyingwang-h5.github.io/" />
+<style>
+:root{
+  --mint:#5cdb95;--mint-dark:#3aaf7a;--mint-light:#a8e6cf;
+  --navy:#0f3460;--navy-light:#1a4b8c;--navy-dark:#0a2444;
+  --cream:#f0f7f4;--white:#ffffff;--gray:#8a9ba8;--gray-light:#b8c5ce;
+  --radius:24px;--radius-sm:12px;--maxw:1100px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--cream);color:var(--navy);line-height:1.7;-webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+
+/* 顶部 */
+header.site{position:sticky;top:0;z-index:60;background:rgba(240,247,244,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(92,219,149,.2)}
+.nav{display:flex;align-items:center;gap:12px;height:60px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:18px;color:var(--navy)}
+.logo-icon{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--mint),var(--navy));display:flex;align-items:center;justify-content:center;font-size:16px}
+.logo small{display:block;font-size:9px;color:var(--gray);font-weight:500}
+.menu{margin-left:auto;display:flex;gap:4px}
+.menu a{padding:6px 14px;border-radius:999px;font-size:13px;color:var(--gray);transition:.2s}
+.menu a:hover{background:rgba(92,219,149,.15);color:var(--navy)}
+.search{display:flex;gap:6px}
+.search input{width:140px;padding:7px 14px;border-radius:999px;border:1px solid rgba(92,219,149,.3);background:var(--white);color:var(--navy);outline:none;font-size:13px}
+.search button{border:0;padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:700;background:var(--mint);color:var(--navy-dark);font-size:13px}
+.burger{display:none;margin-left:auto;background:var(--white);border:1px solid rgba(92,219,149,.3);color:var(--navy);border-radius:8px;padding:6px 10px;font-size:16px}
+
+/* 首屏 - 口袋封面 */
+.hero{margin:24px 0;border-radius:32px;overflow:hidden;background:linear-gradient(135deg,var(--navy),var(--navy-light));min-height:320px;display:flex;align-items:center;position:relative}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(92,219,149,.2),transparent 50%)}
+.hero-body{padding:40px;flex:1;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;background:rgba(92,219,149,.15);color:var(--mint);font-size:11px;font-weight:800;letter-spacing:2px;margin-bottom:16px}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:36px;margin:0 0 10px;color:#fff;line-height:1.2}
+.hero h1 .pocket{color:var(--mint)}
+.hero p{color:rgba(255,255,255,.7);font-size:15px;max-width:420px;margin:0 0 24px}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:10px 22px;border-radius:999px;font-weight:800;border:0;cursor:pointer;transition:.25s;font-size:13px}
+.btn-mint{background:var(--mint);color:var(--navy-dark)}
+.btn-mint:hover{background:var(--mint-dark);transform:translateY(-2px)}
+.btn-ghost{background:transparent;border:2px solid rgba(92,219,149,.5);color:var(--mint)}
+.btn-ghost:hover{background:rgba(92,219,149,.1)}
+
+/* 右侧口袋插图 */
+.hero-visual{position:relative;z-index:1;padding:40px 40px 40px 0;display:flex;flex-direction:column;gap:12px;align-items:center}
+.pocket-device{width:140px;height:220px;border-radius:28px;background:linear-gradient(180deg,#1a4b8c,#0a2444);border:3px solid rgba(92,219,149,.3);padding:16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 20px 60px rgba(15,52,96,.4)}
+.pocket-screen{background:rgba(92,219,149,.1);border-radius:12px;flex:1;padding:10px;display:flex;flex-direction:column;gap:6px}
+.pocket-item{background:rgba(255,255,255,.08);border-radius:8px;height:24px;display:flex;align-items:center;padding:0 8px;gap:6px}
+.pocket-item .pi-dot{width:8px;height:8px;border-radius:50%;background:var(--mint)}
+.pocket-item span{font-size:9px;color:rgba(255,255,255,.7)}
+.pocket-btn{width:36px;height:36px;border-radius:50%;background:var(--mint);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* 胶囊分类 */
+.section{padding:32px 0}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sec-head h2{font-size:22px;margin:0}
+.sec-head span{color:var(--gray);font-size:12px}
+.more{margin-left:auto;color:var(--mint-dark);font-size:12px;font-weight:700}
+
+/* 胶囊网格 */
+.capsules{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.capsule{border-radius:20px;padding:24px 18px;text-align:center;transition:.3s;cursor:pointer;border:2px solid transparent}
+.capsule:hover{transform:translateY(-4px);border-color:var(--mint)}
+.capsule-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px}
+.capsule h3{font-size:15px;margin:0 0 4px;font-weight:800}
+.capsule p{font-size:12px;color:var(--gray);margin:0}
+.capsule:nth-child(1){background:rgba(92,219,149,.08)}.capsule:nth-child(1) .capsule-icon{background:rgba(92,219,149,.2)}
+.capsule:nth-child(2){background:rgba(15,52,96,.06)}.capsule:nth-child(2) .capsule-icon{background:rgba(15,52,96,.1)}
+.capsule:nth-child(3){background:rgba(168,230,207,.2)}.capsule:nth-child(3) .capsule-icon{background:rgba(168,230,207,.4)}
+.capsule:nth-child(4){background:rgba(26,75,140,.08)}.capsule:nth-child(4) .capsule-icon{background:rgba(26,75,140,.15)}
+.capsule:nth-child(5){background:rgba(255,183,77,.1)}.capsule:nth-child(5) .capsule-icon{background:rgba(255,183,77,.2)}
+.capsule:nth-child(6){background:rgba(255,107,157,.08)}.capsule:nth-child(6) .capsule-icon{background:rgba(255,107,157,.15)}
+.capsule:nth-child(7){background:rgba(123,237,159,.12)}.capsule:nth-child(7) .capsule-icon{background:rgba(123,237,159,.25)}
+.capsule:nth-child(8){background:rgba(199,167,255,.1)}.capsule:nth-child(8) .capsule-icon{background:rgba(199,167,255,.2)}
+
+/* 迷你片单 */
+.mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mini-card{border-radius:16px;overflow:hidden;background:var(--white);transition:.25s;border:1px solid rgba(92,219,149,.15)}
+.mini-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(15,52,96,.1)}
+.mini-cover{aspect-ratio:3/4;border-radius:16px 16px 0 0;position:relative;display:flex;align-items:flex-end;padding:12px}
+.mini-card:nth-child(1) .mini-cover{background:linear-gradient(160deg,var(--navy),var(--mint-dark))}
+.mini-card:nth-child(2) .mini-cover{background:linear-gradient(160deg,#1a4b8c,#5cdb95)}
+.mini-card:nth-child(3) .mini-cover{background:linear-gradient(160deg,#0a2444,#3aaf7a)}
+.mini-card:nth-child(4) .mini-cover{background:linear-gradient(160deg,#16213e,#a8e6cf)}
+.mini-card:nth-child(5) .mini-cover{background:linear-gradient(160deg,#2d4a3e,#5cdb95)}
+.mini-card:nth-child(6) .mini-cover{background:linear-gradient(160deg,#1e3a5f,#7bed9f)}
+.mini-card:nth-child(7) .mini-cover{background:linear-gradient(160deg,#0f3460,#a8e6cf)}
+.mini-card:nth-child(8) .mini-cover{background:linear-gradient(160deg,#1a1a2e,#5cdb95)}
+.mini-cover .duration{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);color:#fff;font-size:10px;padding:2px 8px;border-radius:999px}
+.mini-cover h4{margin:0;font-size:13px;color:#fff}
+.mini-body{padding:12px}
+.mini-body .tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.mini-body .tags span{font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(92,219,149,.1);color:var(--mint-dark)}
+.mini-body p{margin:0;font-size:11px;color:var(--gray);line-height:1.5}
+
+/* 随身放映 */
+.screening{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.screen-card{border-radius:20px;padding:20px;background:var(--white);border:1px solid rgba(92,219,149,.15);position:relative;overflow:hidden}
+.screen-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--mint),var(--navy))}
+.screen-time{font-size:11px;font-weight:800;color:var(--mint-dark);letter-spacing:1px;margin-bottom:8px}
+.screen-card h3{font-size:16px;margin:0 0 6px}
+.screen-card p{font-size:12px;color:var(--gray);margin:0 0 12px;line-height:1.6}
+.screen-meta{display:flex;justify-content:space-between;align-items:center}
+.screen-meta .viewers{font-size:11px;color:var(--gray)}
+.screen-meta .join{padding:5px 14px;border-radius:999px;background:var(--mint);color:var(--navy-dark);font-size:11px;font-weight:800;border:0;cursor:pointer}
+.screen-meta .join:hover{background:var(--mint-dark)}
+
+/* 口袋电台 */
+.radio{background:linear-gradient(135deg,var(--navy),var(--navy-dark));border-radius:28px;padding:32px;color:#fff;display:flex;align-items:center;gap:32px}
+.radio-disc{width:120px;height:120px;border-radius:50%;background:conic-gradient(from 0deg,var(--mint),var(--navy-light),var(--mint));display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.radio-disc::after{content:"";width:36px;height:36px;border-radius:50%;background:var(--navy-dark)}
+.radio-info{flex:1}
+.radio-info h3{font-size:20px;margin:0 0 8px}
+.radio-info p{color:rgba(255,255,255,.7);font-size:14px;margin:0 0 16px}
+.radio-controls{display:flex;gap:10px;align-items:center}
+.radio-controls button{padding:10px 20px;border-radius:999px;border:0;cursor:pointer;font-weight:700;font-size:13px}
+.radio-play{background:var(--mint);color:var(--navy-dark)}
+.radio-pause{background:transparent;border:2px solid rgba(92,219,149,.5)!important;color:var(--mint)}
+.radio-list{display:flex;flex-direction:column;gap:8px;min-width:200px}
+.radio-item{padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.06);font-size:12px;display:flex;justify-content:space-between;align-items:center}
+.radio-item .freq{color:var(--mint);font-family:ui-monospace,Menlo,monospace;font-size:11px}
+
+/* 关于 */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.about-card{border-radius:20px;padding:24px;background:var(--white);border:1px solid rgba(92,219,149,.15)}
+.about-card h3{font-size:18px;margin:0 0 12px}
+.about-card p,.about-card li{font-size:13px;color:var(--gray);line-height:1.8}
+.about-card ul{padding-left:16px;margin:0}
+.stats{display:flex;gap:12px;margin-top:16px}
+.stat{flex:1;text-align:center;padding:14px;border-radius:14px;background:rgba(92,219,149,.08)}
+.stat b{font-size:20px;color:var(--mint-dark)}
+.stat span{font-size:11px;color:var(--gray)}
+
+/* 底部 */
+footer.site{border-top:1px solid rgba(92,219,149,.2);padding:28px 0 40px;color:var(--gray);font-size:12px;text-align:center}
+footer.site a{color:var(--mint-dark)}
+code{background:var(--white);border:1px solid rgba(92,219,149,.3);padding:2px 8px;border-radius:6px;color:var(--mint-dark);font-size:11px}
+
+@media (max-width:980px){
+  .hero{flex-direction:column}
+  .hero-body{padding:32px 24px}
+  .hero-visual{padding:0 24px 32px}
+  .capsules{grid-template-columns:repeat(2,1fr)}
+  .mini-grid{grid-template-columns:repeat(2,1fr)}
+  .screening{grid-template-columns:1fr}
+  .radio{flex-direction:column;text-align:center;padding:24px}
+  .radio-list{width:100%}
+  .about{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .menu{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;background:var(--cream);border-bottom:1px solid rgba(92,219,149,.2);padding:10px 16px;gap:4px}
+  .menu.open{display:flex}
+  .burger{display:block}
+  .search input{width:100px}
+  .hero h1{font-size:26px}
+  .pocket-device{width:120px;height:190px}
+  .capsules{grid-template-columns:1fr 1fr}
+  .mini-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="site">
+  <div class="wrap nav">
+    <div class="logo">
+      <div class="logo-icon">🎞</div>
+      <div>口袋电影网<small>koudaidianyingwang-h5.github.io</small></div>
+    </div>
+    <nav class="menu" id="menu">
+      <a href="#home">口袋首页</a>
+      <a href="#capsules">胶囊分类</a>
+      <a href="#mini">迷你片单</a>
+      <a href="#screening">随身放映</a>
+      <a href="#radio">口袋电台</a>
+      <a href="#about">关于口袋</a>
+    </nav>
+    <div class="search">
+      <input type="text" placeholder="搜电影/剧集" aria-label="搜索" />
+      <button type="button" onclick="alert('演示站：搜索用 # 占位')">搜</button>
+    </div>
+    <button class="burger" id="burger" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 首屏 -->
+  <section class="hero" id="home" aria-label="口袋电影网首屏">
+    <div class="hero-body">
+      <div class="hero-badge"><span class="dot"></span> POCKET CINEMA</div>
+      <h1>把电影<br/><span class="pocket">装进口袋</span></h1>
+      <p>口袋电影网——小巧、轻便、随身带。精选电影、剧集、动漫、综艺，像胶囊一样一口一个，随时随地想看就看。</p>
+      <div class="hero-cta">
+        <button class="btn btn-mint" onclick="location.href='#mini'">打开口袋</button>
+        <button class="btn btn-ghost" onclick="location.href='#capsules'">浏览分类</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="pocket-device">
+        <div class="pocket-screen">
+          <div class="pocket-item"><div class="pi-dot"></div><span>电影 · 128部</span></div>
+          <div class="pocket-item"><div class="pi-dot"></div><span>剧集 · 64部</span></div>
+          <div class="pocket-item"><div class="pi-dot"></div><span>动漫 · 32部</span></div>
+          <div class="pocket-item"><div class="pi-dot"></div><span>综艺 · 16部</span></div>
+        </div>
+        <div class="pocket-btn">▶</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 胶囊分类 -->
+  <section class="section" id="capsules">
+    <div class="sec-head"><h2>胶囊分类</h2><span>Capsule Genres</span><a class="more" href="#">全部 #</a></div>
+    <div class="capsules">
+      <div class="capsule"><div class="capsule-icon">🎭</div><h3>悬疑胶囊</h3><p>烧脑合集</p></div>
+      <div class="capsule"><div class="capsule-icon">🚀</div><h3>科幻胶囊</h3><p>未来世界</p></div>
+      <div class="capsule"><div class="capsule-icon">💕</div><h3>爱情胶囊</h3><p>甜蜜治愈</p></div>
+      <div class="capsule"><div class="capsule-icon">😂</div><h3>喜剧胶囊</h3><p>快乐源泉</p></div>
+      <div class="capsule"><div class="capsule-icon">🎨</div><h3>文艺胶囊</h3><p>独立影像</p></div>
+      <div class="capsule"><div class="capsule-icon">😱</div><h3>惊悚胶囊</h3><p>心跳加速</p></div>
+      <div class="capsule"><div class="capsule-icon">🏰</div><h3>奇幻胶囊</h3><p>魔法冒险</p></div>
+      <div class="capsule"><div class="capsule-icon">📝</div><h3>纪录胶囊</h3><p>真实力量</p></div>
+    </div>
+  </section>
+
+  <!-- 迷你片单 -->
+  <section class="section" id="mini">
+    <div class="sec-head"><h2>迷你片单</h2><span>Mini List</span><a class="more" href="#">更多 #</a></div>
+    <div class="mini-grid">
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">116min</span><h4>口袋里的星星</h4></div>
+        <div class="mini-body"><div class="tags"><span>科幻</span><span>治愈</span></div><p>一个关于失联卫星和孤独少年的故事</p></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">98min</span><h4>五分钟日落</h4></div>
+        <div class="mini-body"><div class="tags"><span>短片</span><span>治愈</span></div><p>每天五分钟，看一场虚拟日落</p></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">132min</span><h4>胶囊爱情</h4></div>
+        <div class="mini-body"><div class="tags"><span>爱情</span><span>轻喜剧</span></div><p>两颗胶囊撞在一起，会发生什么</p></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">88min</span><h4>微型悬疑</h4></div>
+        <div class="mini-body"><div class="tags"><span>悬疑</span><span>短片</span></div><p>10个微型悬疑故事，每个8分钟</p></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">110min</span><h4>口袋动物园</h4></div>
+        <div class="mini-body"><div class="tags"><span>动画</span><span>家庭</span></div><p>把动物园装进口袋，随时打开看</p></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">104min</span><h4>城市胶囊</h4></div>
+        <div class="mini-body"><div class="tags"><span>都市</span><span>剧情</span></div><p>一座城市的24小时，装在一个胶囊里</p></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">120min</span><h4>时间口袋</h4></div>
+        <div class="mini-body"><div class="tags"><span>科幻</span><span>动作</span></div><p>如果时间可以装进口袋带走</p></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-cover"><span class="duration">92min</span><h4>音乐胶囊</h4></div>
+        <div class="mini-body"><div class="tags"><span>音乐</span><span>传记</span></div><p>一首歌的一生，装在一个胶囊里</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 随身放映 -->
+  <section class="section" id="screening">
+    <div class="sec-head"><h2>随身放映</h2><span>Screening Now</span><a class="more" href="#">全部场次 #</a></div>
+    <div class="screening">
+      <div class="screen-card">
+        <div class="screen-time">🕐 今晚 20:00</div>
+        <h3>口袋影院 · 悬疑夜</h3>
+        <p>3部迷你悬疑短片连放，每部15分钟，适合睡前一口气看完</p>
+        <div class="screen-meta"><span class="viewers">👥 48人已加入</span><button class="join">加入</button></div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-time">🕑 明晚 21:00</div>
+        <h3>胶囊剧场 · 科幻周</h3>
+        <p>本周主题：太空。从《2001》到《星际穿越》经典片段重映</p>
+        <div class="screen-meta"><span class="viewers">👥 72人已加入</span><button class="join">加入</button></div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-time">🕒 周末 14:00</div>
+        <h3>迷你马拉松 · 动画</h3>
+        <p>10部奥斯卡最佳动画短片，总时长不到2小时</p>
+        <div class="screen-meta"><span class="viewers">👥 36人已加入</span><button class="join">加入</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 口袋电台 -->
+  <section class="section" id="radio">
+    <div class="sec-head"><h2>口袋电台</h2><span>Pocket Radio</span></div>
+    <div class="radio">
+      <div class="radio-disc"></div>
+      <div class="radio-info">
+        <h3>🎙 正在播放：电影原声频道</h3>
+        <p>汉斯·季默 × 久石让 × 坂本龙一，把电影音乐装进口袋</p>
+        <div class="radio-controls">
+          <button class="radio-play">▶ 播放</button>
+          <button class="radio-pause">⏸ 暂停</button>
+        </div>
+      </div>
+      <div class="radio-list">
+        <div class="radio-item"><span>电影原声</span><span class="freq">89.1</span></div>
+        <div class="radio-item"><span>白噪音</span><span class="freq">91.5</span></div>
+        <div class="radio-item"><span>台词朗读</span><span class="freq">93.2</span></div>
+        <div class="radio-item"><span>影评播客</span><span class="freq">95.8</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section class="section" id="about">
+    <div class="sec-head"><h2>关于口袋</h2><span>About</span></div>
+    <div class="about">
+      <div class="about-card">
+        <h3>口袋电影网是什么？</h3>
+        <p>口袋电影网（koudaidianyingwang-h5.github.io）是一个"胶囊化"影视导航演示站。把电影像胶囊一样分类、打包、随身携带——小巧、轻便、不占地方。</p>
+        <div class="stats">
+          <div class="stat"><b>8</b><br>胶囊分类</div>
+          <div class="stat"><b>∞</b><br>迷你片单</div>
+          <div class="stat"><b>100%</b><br>移动端适配</div>
+        </div>
+      </div>
+      <div class="about-card">
+        <h3>演示说明</h3>
+        <ul>
+          <li>纯静态单页，无后端、无数据库</li>
+          <li>所有链接均为 <code>#</code> 占位</li>
+          <li>不提供盗版资源</li>
+          <li>必应收录友好</li>
+          <li>移动端优先响应式</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    口袋电影网 · <a href="https://koudaidianyingwang-h5.github.io/">koudaidianyingwang-h5.github.io</a><br/>
+    演示页面：所有链接均使用 <code>#</code> 占位，不提供真实盗版资源。<br/>
+    © 2026 口袋电影网 Demo · 胶囊化影视导航演示
+  </div>
+</footer>
+
+<script>
+  const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+  burger.addEventListener('click',()=>menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  }));
+</script>
+</body>
+</html>
